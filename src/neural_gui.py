@@ -3,6 +3,10 @@ import wx
 
 class Neural_Trainer(wx.Frame):
 
+
+"""Neural Trainer GUI class
+"""
+
     def __init__(self, parent, title):
         super(Neural_Trainer, self).__init__(parent, title=title,
                                              size=(480, 400))
@@ -12,6 +16,8 @@ class Neural_Trainer(wx.Frame):
         self.Show()
 
     def Siezer_panel(self, sizer, panel):
+    """Upper side
+    """
         self.title_label = wx.StaticText(panel, label="Neural Trainer")
         sizer.Add(self.title_label, pos=(0, 0), flag=wx.TOP | wx.LEFT | wx.BOTTOM,
                   border=15)
@@ -23,26 +29,34 @@ class Neural_Trainer(wx.Frame):
         return sizer, panel
 
     def Import_model(self, sizer, panel):
+    """Model Import text box and button
+    """
         model_label = wx.StaticText(panel, label="Model")
         sizer.Add(model_label, pos=(2, 0), flag=wx.LEFT, border=10)
 
         self.model_import_button = wx.Button(panel, label="Browse")
 
-        self.Bind(event=wx.EVT_BUTTON, handler=self.File_open, id=self.model_import_button.GetId())
+        self.Bind(event=wx.EVT_BUTTON, handler=self.File_open,
+                  id=self.model_import_button.GetId())
         sizer.Add(self.model_import_button, pos=(2, 4),
                   flag=wx.TOP | wx.RIGHT, border=5)
 
         self.model_path = wx.TextCtrl(panel)
-        sizer.Add(self.model_path, pos=(2, 1), span=(1, 3), flag=wx.TOP | wx.EXPAND)
+        sizer.Add(self.model_path, pos=(2, 1),
+                  span=(1, 3), flag=wx.TOP | wx.EXPAND)
 
         return sizer, panel
 
     def Import_weight(self, sizer, panel):
+    """Model weight import text box and button
+    """
         self.weight_label = wx.StaticText(panel, label="Weight")
-        sizer.Add(self.weight_label, pos=(3, 0), flag=wx.LEFT | wx.TOP, border=10)
+        sizer.Add(self.weight_label, pos=(3, 0),
+                  flag=wx.LEFT | wx.TOP, border=10)
 
         self.weight_import_button = wx.Button(panel, label="Browse")
-        self.Bind(event=wx.EVT_BUTTON, handler=self.File_open, id=self.weight_import_button.GetId())
+        self.Bind(event=wx.EVT_BUTTON, handler=self.File_open,
+                  id=self.weight_import_button.GetId())
         sizer.Add(self.weight_import_button, pos=(3, 4),
                   flag=wx.TOP | wx.RIGHT, border=5)
 
@@ -52,11 +66,16 @@ class Neural_Trainer(wx.Frame):
         return sizer, panel
 
     def Import_database(self, sizer, panel):
+        """Database path text box and button
+        """
+
         self.database_label = wx.StaticText(panel, label="DataBase")
-        sizer.Add(self.database_label, pos=(4, 0), flag=wx.TOP | wx.LEFT, border=10)
+        sizer.Add(self.database_label, pos=(4, 0),
+                  flag=wx.TOP | wx.LEFT, border=10)
 
         self.database_button = wx.Button(panel, label="Browse")
-        self.Bind(event=wx.EVT_BUTTON, handler=self.File_open, id=self.database_button.GetId())
+        self.Bind(event=wx.EVT_BUTTON, handler=self.File_open,
+                  id=self.database_button.GetId())
         sizer.Add(self.database_button, pos=(4, 4),
                   flag=wx.TOP | wx.RIGHT, border=5)
 
@@ -66,11 +85,15 @@ class Neural_Trainer(wx.Frame):
         return sizer, panel
 
     def Tensorboard_save(self, sizer, panel):
+    """Tensorboard log file save path and button
+    """
         self.tensorboard_label = wx.StaticText(panel, label="Tensorboard")
-        sizer.Add(self.tensorboard_label, pos=(5, 0), flag=wx.TOP | wx.LEFT, border=10)
+        sizer.Add(self.tensorboard_label, pos=(5, 0),
+                  flag=wx.TOP | wx.LEFT, border=10)
 
         self.tensorboar_button = wx.Button(panel, label="Browse")
-        self.Bind(event=wx.EVT_BUTTON, handler=self.File_open, id=self.tensorboar_button.GetId())
+        self.Bind(event=wx.EVT_BUTTON, handler=self.File_open,
+                  id=self.tensorboar_button.GetId())
         sizer.Add(self.tensorboar_button, pos=(5, 4),
                   flag=wx.TOP | wx.RIGHT, border=5)
 
@@ -78,23 +101,27 @@ class Neural_Trainer(wx.Frame):
         sizer.Add(self.tensorboard_path, pos=(5, 1), span=(1, 3),
                   flag=wx.TOP | wx.EXPAND, border=5)
         return sizer, panel
-    
+
     def Hyper_paramers(self, sizer, panel):
+        """Hyper parameters
+        TODO: sperate button from checkbox
+        """
         self.sb = wx.StaticBox(panel, label=" Attributes")
 
         self.boxsizer = wx.StaticBoxSizer(self.sb, wx.VERTICAL)
         self.boxsizer.Add(wx.CheckBox(panel, label="Train"),
-                     flag=wx.LEFT | wx.TOP, border=5)
+                          flag=wx.LEFT | wx.TOP, border=5)
         self.boxsizer.Add(wx.CheckBox(panel, label="Predict"),
-                     flag=wx.LEFT, border=5)
+                          flag=wx.LEFT, border=5)
         self.boxsizer.Add(wx.CheckBox(panel, label="Float32"),
-                     flag=wx.LEFT, border=5)
+                          flag=wx.LEFT, border=5)
 
         sizer.Add(self.boxsizer, pos=(6, 0), span=(1, 5),
                   flag=wx.EXPAND | wx.TOP | wx.LEFT | wx.RIGHT, border=10)
 
         self.load_model = wx.Button(panel, label='Pre-load')
-        self.Bind(event=wx.EVT_BUTTON, handler=self.Creat_neural, id=self.load_model.GetId())
+        self.Bind(event=wx.EVT_BUTTON, handler=self.Creat_neural,
+                  id=self.load_model.GetId())
         sizer.Add(self.load_model, pos=(8, 0), flag=wx.LEFT, border=10)
 
         self.start_button = wx.Button(panel, label="Start")
@@ -105,7 +132,9 @@ class Neural_Trainer(wx.Frame):
                   flag=wx.BOTTOM | wx.RIGHT, border=5)
         return sizer, panel
 
-    def Creat_neural(self):
+    def Creat_neural(self, event):
+        """Pre-load Keras model
+        """ 
         flag = 0
         if self.model_path.GetValue():
             flag = 1
@@ -129,28 +158,30 @@ class Neural_Trainer(wx.Frame):
             self.Nerural_Kernel(self)
 
     def File_open(self, event):
+        """Open file hook
+        """
         current_event_id = event.GetId()
         if current_event_id == self.model_import_button.GetId():
             with wx.FileDialog(self, "Choose a file to open", "./",
-                           "", "*.*", wx.FD_OPEN) as dlg:
+                               "", "*.*", wx.FD_OPEN) as dlg:
                 if dlg.ShowModal() == wx.ID_OK:
                     self.model_path.write('/'.join((directory, filename)))
 
         if current_event_id == self.weight_import_button.GetId():
             with wx.FileDialog(self, "Choose a file to open", "./",
-                           "", "*.*", wx.FD_OPEN) as dlg:
+                               "", "*.*", wx.FD_OPEN) as dlg:
                 if dlg.ShowModal() == wx.ID_OK:
                     self.weight_path.write('/'.join((directory, filename)))
 
         if current_event_id == self.database_button.GetId():
             with wx.FileDialog(self, "Choose a file to open", "./",
-                           "", "*.*", wx.FD_OPEN) as dlg:
+                               "", "*.*", wx.FD_OPEN) as dlg:
                 if dlg.ShowModal() == wx.ID_OK:
                     self.database_path.write('/'.join((directory, filename)))
 
         if current_event_id == self.tensorboar_button.GetId():
-            with wx.DirDialog (None, "Choose input directory", "",
-                               wx.DD_DEFAULT_STYLE | wx.DD_DIR_MUST_EXIST) as dlg:
+            with wx.DirDialog(None, "Choose input directory", "",
+                              wx.DD_DEFAULT_STYLE | wx.DD_DIR_MUST_EXIST) as dlg:
                 if dlg.ShowModal() == wx.ID_OK:
                     self.tensorboard_path.write(dlg.GetPath())
 
@@ -167,23 +198,32 @@ class Neural_Trainer(wx.Frame):
 
         sizer.AddGrowableCol(2)
         panel.SetSizer(sizer)
-        
-
 
     class Nerural_Kernel():
+
+        def Import_library(self):
+            import pandas as pd
+            # import data_generator as dg
+            from keras.models import load_model
+            from keras.backend import set_floatx
+            from tensorflow import ConfigProto
+
+        def Load_keras_model_in(self):
+            self.neural_model = load_model(self.model_path)
+            self.neural_model.load_weights(self.weight_path)
+
         def __init__(self, GUI):
-                import pandas as pd
-                # import data_generator as dg
-                from keras.models import load_model
-                from keras.backend import set_floatx
-                from tensorflow import ConfigProto
 
+            self.model_path = GUI.model_path
+            self.weight_path = GUI.weight_path
+            self.database_path = GUI.database_path
+            self.tensorboard_path = GUI.tensorboard_path
 
-        # self.neural_model = load_model(model_path)
-        # self.neural_model.load_weights(weight_path)
-        # dataSet = ds.Handler(5000, ['20180124'])
-        # tensorboard =  
+            self.Import_library()
+            self.Load_keras_model_in()
 
+            # dataSet = ds.Handler(5000, ['20180124'])
+            # tensorboard =
 
 
 if __name__ == '__main__':
